@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sender Information App</title>
+
+  <!-- Crayons CSS for styling -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/css/crayons-min.css">
+
+  <!-- Crayons JavaScript for components functionality -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.js"></script>
+</head>
+<body>
+  <!-- Container for the app -->
+  <div class="app-container">
+    <!-- Header section with the app title -->
+    <header class="py-4">
+      <h1 class="text-center">Sender Information</h1>
+    </header>
+
+    <!-- Main section to display sender's details -->
+    <main class="p-4">
+      <!-- Loading indicator -->
+      <fw-spinner size="medium" color="blue"></fw-spinner>
+
+      <!-- Sender's details form -->
+      <div class="form-container">
+        <fw-input id="senderName" label="Name" placeholder="Enter sender's name" required></fw-input>
+        <fw-input id="senderEmail" type="email" label="Email" placeholder="Enter sender's email" required></fw-input>
+        <fw-input id="senderPhone" type="tel" label="Phone Number" placeholder="Enter sender's phone number" required></fw-input>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal for additional information -->
+  <fw-modal id="infoModal" title="Additional Information">
+    <p>Here is some additional information...</p>
+    <fw-button slot="footer" id="closeModalButton">Close</fw-button>
+  </fw-modal>
+
+  <!-- Link to external app.js file for frontend business logic -->
+  <script src="app.js"></script>
+  <script defer src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+  <script defer src="scripts/app.js"></script>
+
+  <script>
+    document.getElementById('closeModalButton').addEventListener('click', function() {
+      document.getElementById('infoModal').hide();
+    });
+  </script>
+</body>
+</html>
