@@ -183,6 +183,58 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+// 데이터 가져오기 함수
+async function fetchData() {
+  const display = document.getElementById('payload-display');
+  if (!display) return;
+  
+  display.innerHTML = "<p>데이터 가져오는 중...</p>";
+  
+  try {
+    // 통화 데이터 가져오기 시도
+    try {
+      const response = await client.request.invoke('getLastCallPayload', {});
+      console.log('서버 응답:', response);
+      
+      if (response && response.response) {
+        // 응답 데이터 표시
+        display.innerHTML = `
+          <h3>통화 데이터</h3>
+          <pre>${JSON.stringify(response.response, null, 2)}</pre>
+        `;
+        return;
+      }
+    } catch (callErr) {
+      console.warn('통화 데이터 가져오기 실패:', callErr);
+      // 오류가 발생하면 계속해서 기본 데이터 표시
+    }
+    
+    // 통화 데이터 가져오기 실패 시 기본 앱 정보 표시
+    const instance = await client.instance.get();
+    let settings = {};
+    
+    try {
+      settings = await client.iparams.get();
+    } catch (err) {
+      console.warn('앱 설정 가져오기 실패:', err);
+    }
+    
+    display.innerHTML = `
+      <div class="message warning">통화 데이터를 가져올 수 없습니다. 대신 앱 정보를 표시합니다.</div>
+      <h3>앱 정보</h3>
+      <pre>${JSON.stringify({
+        module: currentModule,
+        instance: instance,
+        settings: settings,
+        timestamp: new Date().toISOString()
+      }, null, 2)}</pre>
+    `;
+  } catch (error) {
+    console.error('데이터 가져오기 오류:', error);
+    display.innerHTML = `<div class="message error">오류: ${error.message}</div>`;
+  }
+}
+
 // 문서 로드 완료 시 앱 초기화 실행
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM content loaded, initializing app...');

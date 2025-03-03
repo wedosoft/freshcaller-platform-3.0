@@ -8,7 +8,7 @@
       }
     },
     "support_ticket": {
-      "events": {}
+      "events": []
     },
     "common": {
       "location": {
@@ -17,7 +17,7 @@
           "icon": "styles/images/icon.svg"
         }
       },
-      "events": {},
+      "events": [],
       "functions": {
         "getLastCallPayload": {}
       },
