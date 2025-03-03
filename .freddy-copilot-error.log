@@ -29,3 +29,63 @@
       Extension Version:: 2.3.1
       --------------------------------------
     
+      --------------------------------------
+      Error Stack:: "AxiosError: Request failed with status code 429\n    at Le (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:168618)\n    at x.<anonymous> (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:179832)\n    at x.emit (node:events:530:35)\n    at x._processResponse (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:49588)\n    at ClientRequest._onNativeResponse (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:44660)\n    at Object.onceWrapper (node:events:633:26)\n    at ClientRequest.emit (node:events:530:35)\n    at HTTPParser.parserOnIncomingClient [as onIncoming] (node:_http_client:702:27)\n    at HTTPParser.parserOnHeadersComplete (node:_http_common:118:17)\n    at TLSSocket.socketOnData (node:_http_client:544:22)\n    at TLSSocket.emit (node:events:518:28)\n    at addChunk (node:internal/streams/readable:561:12)\n    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)\n    at TLSSocket.Readable.push (node:internal/streams/readable:392:5)\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23)"
+      Error Message:: "Request failed with status code 429"
+      Error Name:: "AxiosError"
+      Request ID:: 0376403f-bda8-4ab8-b890-2229485fd06c
+      Tokens Remaining:: 0
+      Env:: release
+      API Route:: /api/v1/copilot/completions/platform/3
+      
+      
+
+      Timestamp:: Sun, 02 Mar 2025 10:25:19 GMT
+      Extension Version:: 2.3.1
+      --------------------------------------
+    
+      --------------------------------------
+      Error Stack:: "AxiosError: Request failed with status code 429\n    at Le (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:168618)\n    at x.<anonymous> (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:179832)\n    at x.emit (node:events:530:35)\n    at x._processResponse (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:49588)\n    at ClientRequest._onNativeResponse (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:44660)\n    at Object.onceWrapper (node:events:633:26)\n    at ClientRequest.emit (node:events:530:35)\n    at HTTPParser.parserOnIncomingClient [as onIncoming] (node:_http_client:702:27)\n    at HTTPParser.parserOnHeadersComplete (node:_http_common:118:17)\n    at TLSSocket.socketOnData (node:_http_client:544:22)\n    at TLSSocket.emit (node:events:518:28)\n    at addChunk (node:internal/streams/readable:561:12)\n    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)\n    at TLSSocket.Readable.push (node:internal/streams/readable:392:5)\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23)"
+      Error Message:: "Request failed with status code 429"
+      Error Name:: "AxiosError"
+      Request ID:: 0376403f-bda8-4ab8-b890-2229485fd06c
+      Tokens Remaining:: 0
+      Env:: release
+      API Route:: /api/v1/copilot/completions/platform/3
+      
+      
+
+      Timestamp:: Sun, 02 Mar 2025 10:25:19 GMT
+      Extension Version:: 2.3.1
+      --------------------------------------
+    
+      --------------------------------------
+      Error Stack:: "AxiosError: Request failed with status code 429\n    at Le (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:168618)\n    at x.<anonymous> (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:179832)\n    at x.emit (node:events:530:35)\n    at x._processResponse (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:49588)\n    at ClientRequest._onNativeResponse (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:44660)\n    at Object.onceWrapper (node:events:633:26)\n    at ClientRequest.emit (node:events:530:35)\n    at HTTPParser.parserOnIncomingClient [as onIncoming] (node:_http_client:702:27)\n    at HTTPParser.parserOnHeadersComplete (node:_http_common:118:17)\n    at TLSSocket.socketOnData (node:_http_client:544:22)\n    at TLSSocket.emit (node:events:518:28)\n    at addChunk (node:internal/streams/readable:561:12)\n    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)\n    at TLSSocket.Readable.push (node:internal/streams/readable:392:5)\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23)"
+      Error Message:: "Request failed with status code 429"
+      Error Name:: "AxiosError"
+      Request ID:: 27831267-864f-4500-b88a-3cd7d21b4b78
+      Tokens Remaining:: 0
+      Env:: release
+      API Route:: /api/v1/copilot/completions/platform/3
+      
+      
+
+      Timestamp:: Sun, 02 Mar 2025 10:25:36 GMT
+      Extension Version:: 2.3.1
+      --------------------------------------
+    
+      --------------------------------------
+      Error Stack:: "AxiosError: Request failed with status code 429\n    at Le (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:168618)\n    at x.<anonymous> (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:179832)\n    at x.emit (node:events:530:35)\n    at x._processResponse (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:49588)\n    at ClientRequest._onNativeResponse (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:44660)\n    at Object.onceWrapper (node:events:633:26)\n    at ClientRequest.emit (node:events:530:35)\n    at HTTPParser.parserOnIncomingClient [as onIncoming] (node:_http_client:702:27)\n    at HTTPParser.parserOnHeadersComplete (node:_http_common:118:17)\n    at TLSSocket.socketOnData (node:_http_client:544:22)\n    at TLSSocket.emit (node:events:518:28)\n    at addChunk (node:internal/streams/readable:561:12)\n    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)\n    at TLSSocket.Readable.push (node:internal/streams/readable:392:5)\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23)"
+      Error Message:: "Request failed with status code 429"
+      Error Name:: "AxiosError"
+      Request ID:: 27831267-864f-4500-b88a-3cd7d21b4b78
+      Tokens Remaining:: 0
+      Env:: release
+      API Route:: /api/v1/copilot/completions/platform/3
+      
+      
+
+      Timestamp:: Sun, 02 Mar 2025 10:25:36 GMT
+      Extension Version:: 2.3.1
+      --------------------------------------
+    
