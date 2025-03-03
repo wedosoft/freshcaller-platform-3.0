@@ -18,10 +18,10 @@
         }
       },
       "events": {},
-      "functions": {},
-      "requests": {
-        "fetch_contact_info": {}
-      }
+      "functions": {
+        "getLastCallPayload": {}
+      },
+      "requests": {}
     }
   },
   "platform-version": "3.0",

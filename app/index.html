@@ -2,54 +2,184 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sender Information App</title>
-
-  <!-- Crayons CSS for styling -->
+  <title>Call Notification</title>
+  
+  <!-- Crayons CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/css/crayons-min.css">
-
-  <!-- Crayons JavaScript for components functionality -->
+  
+  <!-- Crayons JS -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.js"></script>
+  
+  <style>
+    .message {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .call-data {
+      background-color: #e2e3e5;
+      color: #383d41;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      max-height: 500px;
+    }
+    .actions {
+      margin: 15px 0;
+    }
+  </style>
 </head>
 <body>
-  <!-- Container for the app -->
-  <div class="app-container">
-    <!-- Header section with the app title -->
-    <header class="py-4">
-      <h1 class="text-center">Sender Information</h1>
-    </header>
-
-    <!-- Main section to display sender's details -->
-    <main class="p-4">
-      <!-- Loading indicator -->
-      <fw-spinner size="medium" color="blue"></fw-spinner>
-
-      <!-- Sender's details form -->
-      <div class="form-container">
-        <fw-input id="senderName" label="Name" placeholder="Enter sender's name" required></fw-input>
-        <fw-input id="senderEmail" type="email" label="Email" placeholder="Enter sender's email" required></fw-input>
-        <fw-input id="senderPhone" type="tel" label="Phone Number" placeholder="Enter sender's phone number" required></fw-input>
-      </div>
-    </main>
+  <div class="container p-4">
+    <fw-card>
+      <fw-card-header>
+        <h2>Call Notification</h2>
+      </fw-card-header>
+      <fw-card-content>
+        <!-- 상태 메시지 -->
+        <div id="status" class="message success">
+          Full page app successfully loaded!
+        </div>
+        
+        <!-- 액션 버튼 -->
+        <div class="actions">
+          <fw-button color="primary" id="fetchBtn">콜 페이로드 가져오기</fw-button>
+          <fw-button color="secondary" id="testBtn">테스트 데이터 보기</fw-button>
+        </div>
+        
+        <!-- 콜 페이로드 데이터 -->
+        <div class="call-data">
+          <h3>Call Payload Data</h3>
+          <pre id="payload-display">Click the button above to fetch call payload data...</pre>
+        </div>
+      </fw-card-content>
+    </fw-card>
   </div>
 
-  <!-- Modal for additional information -->
-  <fw-modal id="infoModal" title="Additional Information">
-    <p>Here is some additional information...</p>
-    <fw-button slot="footer" id="closeModalButton">Close</fw-button>
-  </fw-modal>
-
-  <!-- Link to external app.js file for frontend business logic -->
-  <script src="app.js"></script>
-  <script defer src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
-  <script defer src="scripts/app.js"></script>
-
+  <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
   <script>
-    document.getElementById('closeModalButton').addEventListener('click', function() {
-      document.getElementById('infoModal').hide();
+    let client;
+    
+    // 앱 초기화
+    document.addEventListener('DOMContentLoaded', async function() {
+      try {
+        // 앱 클라이언트 초기화
+        client = await app.initialized();
+        console.log('App initialized successfully');
+        
+        // 버튼 이벤트 설정
+        setupButtons();
+        
+      } catch (error) {
+        console.error('Failed to initialize app:', error);
+        showError('Error initializing app: ' + error.message);
+      }
     });
+    
+    // 버튼 설정 함수
+    function setupButtons() {
+      // 페이로드 가져오기 버튼
+      const fetchBtn = document.getElementById('fetchBtn');
+      if (fetchBtn) {
+        fetchBtn.addEventListener('click', fetchCallPayload);
+      }
+      
+      // 테스트 데이터 버튼
+      const testBtn = document.getElementById('testBtn');
+      if (testBtn) {
+        testBtn.addEventListener('click', showTestData);
+      }
+    }
+    
+    // 페이로드 가져오기 함수
+    async function fetchCallPayload() {
+      const display = document.getElementById('payload-display');
+      if (!display) return;
+      
+      try {
+        display.textContent = "데이터 가져오는 중...";
+        
+        // 서버 메서드 호출
+        const data = await client.request.invoke('getLastCallPayload', {});
+        console.log('Server response:', data);
+        
+        if (data && data.response) {
+          const response = data.response;
+          
+          if (response.success && response.payload) {
+            // 페이로드 데이터 표시
+            display.textContent = JSON.stringify(response.payload, null, 2);
+          } else {
+            display.textContent = "No call payload data available yet. Try making a test call first.";
+          }
+        } else {
+          display.textContent = "No response data received from server.";
+        }
+      } catch (error) {
+        console.error('Error fetching call payload:', error);
+        display.textContent = "Error: " + error.message;
+      }
+    }
+    
+    // 테스트 데이터 표시 함수
+    function showTestData() {
+      const display = document.getElementById('payload-display');
+      if (!display) return;
+      
+      // 테스트 데이터 (server/test_data/call/onCallCreate.json 기반)
+      const testData = {
+        "event": "onCallCreate",
+        "timestamp": 1583839686,
+        "region": "US",
+        "data": {
+          "call": {
+            "phone_number": "+1234567891",
+            "direction": "outgoing",
+            "id": 135,
+            "created_time": "2020-03-10T11:28:05.000Z",
+            "call_notes": "customer needs to cancel flight",
+            "participants": [
+              {
+                "participant_type": "Customer",
+                "caller_number": "+11234568791",
+                "call_status": 0
+              },
+              {
+                "participant_type": "Agent",
+                "call_status": 8
+              }
+            ]
+          }
+        }
+      };
+      
+      display.textContent = JSON.stringify(testData, null, 2);
+    }
+    
+    // 오류 표시 함수
+    function showError(message) {
+      const statusElement = document.getElementById('status');
+      if (statusElement) {
+        statusElement.className = 'message error';
+        statusElement.textContent = message;
+      }
+    }
   </script>
 </body>
 </html>
