@@ -2,9 +2,6 @@
   "modules": {
     "call": {
       "events": {
-        "onCallUpdate": {
-          "handler": "onCallUpdateHandler"
-        },
         "onCallCreate": {
           "handler": "onCallCreateHandler"
         }
@@ -21,7 +18,9 @@
         }
       },
       "events": {},
-      "functions": {},
+      "functions": {
+        "getLastCallPayload": {}
+      },
       "requests": {}
     }
   },
