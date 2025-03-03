@@ -2,6 +2,9 @@
   "modules": {
     "call": {
       "events": {
+        "onCallUpdate": {
+          "handler": "onCallUpdateHandler"
+        },
         "onCallCreate": {
           "handler": "onCallCreateHandler"
         }
@@ -14,16 +17,12 @@
       "location": {
         "full_page_app": {
           "url": "index.html",
-          "icon": "styles/icon.svg"
+          "icon": "styles/images/icon.svg"
         }
       },
-      "events": [],
-      "functions": {
-        "getLastCallPayload": {}
-      },
-      "requests": {
-        "fetch_contact_info":{}
-      }
+      "events": {},
+      "functions": {},
+      "requests": {}
     }
   },
   "platform-version": "3.0",
@@ -32,7 +31,7 @@
     "fdk": "9.3.1"
   },
   "app": {
-    "tracking_id": "aeifeq4morshxawdljbl",
-    "start_time": "2025-03-02T09:04:55.963Z"
+    "tracking_id": "uicv69j2qf4v0jki008u",
+    "start_time": "2025-03-03T09:04:35.607Z"
   }
 }
