@@ -1,14 +1,5 @@
 {
-  "lints": [
-    {
-      "severity": 1,
-      "value": "app/scripts/app.js::12: 'client' declared and assigned in different scopes. Possible asynchronous race condition."
-    },
-    {
-      "severity": 1,
-      "value": "app/scripts/app.js::54: Async function 'fetchPayloadData' has a complexity of 8. Maximum allowed is 7."
-    }
-  ],
+  "lints": [],
   "coverage": {
     "server/server.js": {
       "path": "server/server.js",

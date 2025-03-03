@@ -89,3 +89,18 @@
       Extension Version:: 2.3.1
       --------------------------------------
     
+      --------------------------------------
+      Error Stack:: "AxiosError: Request failed with status code 400\n    at Le (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:168618)\n    at IncomingMessage.<anonymous> (/Users/alan/.vscode/extensions/freshworksmarketplace.freddy-copilot-2.3.1/dist/extension.js:2:180488)\n    at IncomingMessage.emit (node:events:530:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at processTicksAndRejections (node:internal/process/task_queues:82:21)"
+      Error Message:: "Request failed with status code 400"
+      Error Name:: "AxiosError"
+      Request ID:: 22054744-4407-494c-b1a8-e0e880d56675
+      
+      Env:: release
+      API Route:: /api/v1/copilot/metrics/feedback
+      API Response Message:: One or more fields didn't meet the constraints
+      API Response Error Type:: validation_failed
+
+      Timestamp:: Mon, 03 Mar 2025 08:40:38 GMT
+      Extension Version:: 2.3.1
+      --------------------------------------
+    

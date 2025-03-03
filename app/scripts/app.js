@@ -1,251 +1,120 @@
 /**
- * app/scripts/app.js - 클라이언트 측 로직
+ * app/scripts/app.js - 개선된 클라이언트 측 로직
  */
 
-// 전역 변수
-let client;
-
-// 앱 초기화 및 이벤트 설정
-async function initApp() {
-  try {
-    // 앱 초기화
-    client = await app.initialized();
-    console.log('App initialized successfully');
-    
-    // 앱 활성화 이벤트 처리
-    client.events.on('app.activated', function() {
-      console.log('App activated event triggered');
-      
-      // 성공 메시지 표시
-      displayCallStatus('success', 'Full page app loaded successfully!');
-      
-      // 이벤트 데이터 가져오기
-      setTimeout(fetchPayloadData, 1000); // 약간의 지연을 두고 실행
-    });
-    
-  } catch (error) {
-    console.error('Failed to initialize app:', error);
-    displayCallStatus('error', 'Error initializing app: ' + error.message);
-  }
-}
-
-// 통화 상태 표시 함수
-function displayCallStatus(type, message) {
-  const detailsElement = document.getElementById('callDetails');
-  if (!detailsElement) {
-    console.error('Call details element not found');
-    return;
-  }
-  
-  let className = 'info-msg';
-  if (type === 'success') className = 'success-msg';
-  if (type === 'error') className = 'error-msg';
-  if (type === 'warning') className = 'warning-msg';
-  
-  detailsElement.innerHTML = `
-    <div class="${className}">
-      <p><strong>${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'}</strong> ${message}</p>
-      <p>Time: ${new Date().toLocaleTimeString()}</p>
-    </div>
-  `;
-}
-
-// 페이로드 데이터 가져오기 함수
-async function fetchPayloadData() {
-  // 페이로드 데이터 표시 요소 찾기
-  const payloadElement = document.getElementById('payload-data');
-  
-  if (!payloadElement) {
-    console.error('Payload element not found in the DOM');
-    return;
-  }
-  
-  try {
-    console.log('Attempting to fetch payload data...');
-    
-    // 페이로드 데이터를 가져오기 위한 여러 방법 시도
-    let payloadData = null;
-    let dataSource = '';
-    
-    // 방법 1: context API 사용
+// 전역 변수 제거, 모듈 패턴 사용
+(function() {
+  // 클라이언트를 안전하게 초기화하는 주 함수
+  async function initializeApp() {
     try {
-      console.log('Trying context.getContext() method...');
-      const contextData = await client.context.getContext();
-      console.log('Context API response:', contextData);
-      if (contextData) {
-        payloadData = contextData;
-        dataSource = 'Context API';
-      }
-    } catch (err1) {
-      console.log('Context API failed:', err1.message);
+      // 클라이언트 초기화 (단일 스코프에서 처리)
+      const client = await app.initialized();
+      console.log('앱 초기화 성공');
+
+      // 이벤트 설정
+      setupAppEvents(client);
       
-      // 방법 2: 앱 데이터 가져오기
-      try {
-        console.log('Trying app.get() method...');
-        const appData = await client.instance.get();
-        console.log('App data response:', appData);
-        if (appData) {
-          payloadData = appData;
-          dataSource = 'App Instance API';
-        }
-      } catch (err2) {
-        console.log('App data method failed:', err2.message);
-        
-        // 방법 3: 환경 정보 대체 데이터 사용
-        console.log('Using environment info as fallback');
-        payloadData = getEnvironmentInfo();
-        dataSource = 'Environment Info (Fallback)';
-      }
+      // 초기 데이터 로드
+      await safelyFetchInitialData(client);
+    } catch (error) {
+      handleAppInitError(error);
     }
-    
-    // 결과 표시
-    displayPayloadData(payloadData, dataSource);
-    
-  } catch (error) {
-    console.error('Failed to fetch payload data:', error);
-    
-    if (payloadElement) {
+  }
+
+  // 앱 이벤트 설정 함수 (복잡성 감소)
+  function setupAppEvents(client) {
+    client.events.on('app.activated', handleAppActivation);
+  }
+
+  // 앱 활성화 처리 핸들러
+  async function handleAppActivation() {
+    console.log('앱 활성화 이벤트 트리거됨');
+    await displayCallStatus('success', '앱이 성공적으로 로드되었습니다.');
+  }
+
+  // 초기 데이터 안전하게 가져오기
+  async function safelyFetchInitialData(client) {
+    try {
+      // 데이터 로드 로직 간소화
+      const contextData = await client.context.getContext();
+      displayPayloadData(contextData, 'Context API');
+    } catch (error) {
+      console.warn('초기 데이터 로드 실패:', error);
+      displayFallbackData();
+    }
+  }
+
+  // 통화 상태 표시 함수
+  function displayCallStatus(type, message) {
+    const statusElement = document.getElementById('status');
+    if (!statusElement) return;
+
+    statusElement.className = `message ${type}`;
+    statusElement.innerHTML = `
+      <p><strong>${getStatusIcon(type)}</strong> ${message}</p>
+      <p>시간: ${new Date().toLocaleTimeString()}</p>
+    `;
+  }
+
+  // 상태 아이콘 반환
+  function getStatusIcon(type) {
+    switch(type) {
+      case 'success': return '✓';
+      case 'error': return '✗';
+      default: return 'ℹ';
+    }
+  }
+
+  // 페이로드 데이터 표시
+  function displayPayloadData(data, source) {
+    const payloadElement = document.getElementById('payload-display');
+    if (!payloadElement) return;
+
+    try {
+      const formattedData = JSON.stringify(data || {}, null, 2);
       payloadElement.innerHTML = `
-        <div class="error-msg">
-          <p><strong>Error fetching data:</strong> ${error.message}</p>
-          <p>Check console for details.</p>
+        <h3>${source || 'API'} 데이터:</h3>
+        <pre>${escapeHtml(formattedData)}</pre>
+      `;
+    } catch (error) {
+      payloadElement.innerHTML = `
+        <div class="message error">
+          데이터 표시 중 오류 발생: ${error.message}
         </div>
       `;
     }
   }
-}
 
-// 환경 정보 가져오기
-function getEnvironmentInfo() {
-  return {
-    environment: {
-      timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      url: window.location.href,
-      viewport: {
-        width: window.innerWidth,
-        height: window.innerHeight
-      },
-      platform: navigator.platform,
-      language: navigator.language
-    },
-    app: {
-      name: "Freshcaller Integration",
-      purpose: "Display call details when a call is received",
-      testMode: true
-    }
-  };
-}
+  // 대체 데이터 표시
+  function displayFallbackData() {
+    const payloadElement = document.getElementById('payload-display');
+    if (!payloadElement) return;
 
-// 페이로드 데이터 표시 함수
-function displayPayloadData(data, source) {
-  const payloadElement = document.getElementById('payload-data');
-  if (!payloadElement) {
-    console.error('Payload element still not found');
-    return;
-  }
-  
-  if (!data) {
     payloadElement.innerHTML = `
-      <div class="warning-msg">
-        <p><strong>Warning:</strong> No payload data available</p>
+      <div class="message warning">
+        <p>기본 데이터 로드</p>
+        <p>현재 시간: ${new Date().toISOString()}</p>
       </div>
     `;
-    return;
   }
-  
-  // 데이터 형식화
-  let formattedData;
-  try {
-    const dataObj = typeof data === 'string' ? JSON.parse(data) : data;
-    formattedData = JSON.stringify(dataObj, null, 2);
-  } catch (e) {
-    formattedData = typeof data === 'string' ? data : JSON.stringify(data);
+
+  // HTML 이스케이프 함수 (XSS 방지)
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
-  
-  // 데이터 표시
-  payloadElement.innerHTML = `
-    <h3>Data from ${source || 'API'}:</h3>
-    <div class="data-section">
-      <pre class="payload-pre">${escapeHtml(formattedData)}</pre>
-    </div>
-  `;
-}
 
-// HTML 이스케이프 함수 (XSS 방지)
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-// 데이터 가져오기 함수
-async function fetchData() {
-  const display = document.getElementById('payload-display');
-  if (!display) return;
-  
-  display.innerHTML = "<p>데이터 가져오는 중...</p>";
-  
-  try {
-    // 통화 데이터 가져오기 시도
-    try {
-      const response = await client.request.invoke('getLastCallPayload', {});
-      console.log('서버 응답:', response);
-      
-      if (response && response.response) {
-        // 응답 데이터 표시
-        display.innerHTML = `
-          <h3>통화 데이터</h3>
-          <pre>${JSON.stringify(response.response, null, 2)}</pre>
-        `;
-        return;
-      }
-    } catch (callErr) {
-      console.warn('통화 데이터 가져오기 실패:', callErr);
-      // 오류가 발생하면 계속해서 기본 데이터 표시
-    }
-    
-    // 통화 데이터 가져오기 실패 시 기본 앱 정보 표시
-    const instance = await client.instance.get();
-    let settings = {};
-    
-    try {
-      settings = await client.iparams.get();
-    } catch (err) {
-      console.warn('앱 설정 가져오기 실패:', err);
-    }
-    
-    display.innerHTML = `
-      <div class="message warning">통화 데이터를 가져올 수 없습니다. 대신 앱 정보를 표시합니다.</div>
-      <h3>앱 정보</h3>
-      <pre>${JSON.stringify({
-        module: currentModule,
-        instance: instance,
-        settings: settings,
-        timestamp: new Date().toISOString()
-      }, null, 2)}</pre>
-    `;
-  } catch (error) {
-    console.error('데이터 가져오기 오류:', error);
-    display.innerHTML = `<div class="message error">오류: ${error.message}</div>`;
+  // 앱 초기화 에러 핸들러
+  function handleAppInitError(error) {
+    console.error('앱 초기화 실패:', error);
+    displayCallStatus('error', `초기화 오류: ${error.message}`);
   }
-}
 
-// 문서 로드 완료 시 앱 초기화 실행
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM content loaded, initializing app...');
-  
-  // DOM 요소 확인 (디버깅용)
-  const payloadElement = document.getElementById('payload-data');
-  console.log('payload-data element found in DOM:', !!payloadElement);
-  
-  const callDetailsElement = document.getElementById('callDetails');
-  console.log('callDetails element found in DOM:', !!callDetailsElement);
-  
-  // 앱 초기화
-  initApp();
-});
+  // DOM 로드 완료 시 앱 초기화
+  document.addEventListener('DOMContentLoaded', initializeApp);
+})();
